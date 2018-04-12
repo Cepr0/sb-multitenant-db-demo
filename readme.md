@@ -1,8 +1,8 @@
 ## Multi-tenancy database Spring Boot demo project
 
-###A simple single-class solution with support for dynamic loading of the tenant datasources
+### A simple single-class solution with support for dynamic loading of the tenant datasources
 
-####Description
+#### Description
 This solution utilizes the separate schema of [multi-tenant data approaches][1]:
 
 ![mt.png](mt.png)
@@ -84,7 +84,7 @@ public class MultiTenantManager {
 
 - `DataSourceProperties properties` is used to get Database Driver Class name of tenant database from the `spring.datasource.driverClassName` of the 'application.properties' (for example, `org.postgresql.Driver`);
 
-- method `addTenant` is used to add a new tenant and its datasource to our local tenant datasource storage. **We can do this on the fly** - thanks to the method `afterPropertiesSet()` (see example [here](io.github.cepr0.demo.controller.TenantController));
+- method `addTenant` is used to add a new tenant and its datasource to our local tenant datasource storage. **We can do this on the fly** - thanks to the method `afterPropertiesSet()` (see example [here](service/src/main/java/io/github/cepr0/demo/controller/TenantController.java));
 
 - method `setCurrentTenant(String tenantId)` is used to 'switch' onto datasource of the given tenant. We can use this method, for example, in the REST controller when handling a request to work with database. The request should contain the 'tenantId', for example in the `X-TenantId` header, that we can retrieve and put to this method;
 
@@ -92,7 +92,7 @@ public class MultiTenantManager {
 
 Note: we **must** set `spring.jpa.hibernate.ddl-auto` parameter to `none` to disable the Hibernate make changes in the database schema. We have to create schema of tenant databases beforehand.
 
-####Loading tenant datasource dynamically
+#### Loading tenant datasource dynamically
 
 To realize this we can add to the class new property `tenantResolver` and it's setter:
 
@@ -133,11 +133,11 @@ If tenantId not found in the local storage then we try to resolve them (if resol
 Now, during the next request to the our rest controller (for example), the code will check whether the tenant datasource is present in the local storage and, 
 if it does not exist, will load its parameters dynamically.
 
-Full code of the `MultiTenantManager` you can find [here](io.github.cepr0.demo.multitenant.MultiTenantManager).
+Full code of the `MultiTenantManager` you can find [here](multitenant/src/main/java/io/github/cepr0/demo/multitenant/MultiTenantManager.java).
 
-####Usage example
+#### Usage example
 
-to be updated...
+Will be added...
 
   [1]: http://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#multitenacy-approaches
   [2]: https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/lookup/AbstractRoutingDataSource.html
