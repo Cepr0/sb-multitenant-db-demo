@@ -35,6 +35,10 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
+	/**
+	 * Load tenant datasource properties from the folder 'tenants/onStartUp`
+	 * when the app has started.
+	 */
 	@SneakyThrows(IOException.class)
 	@EventListener
 	public void onReady(ApplicationReadyEvent event) {
@@ -64,6 +68,13 @@ public class Application {
 		}
 	}
 
+	/**
+	 * Example of the tenant resolver - load the given tenant datasource properties
+	 * from the folder 'tenants/atRuntime'
+	 *
+	 * @param tenantId tenant id
+	 * @return tenant DataSource
+	 */
 	private static DataSourceProperties tenantResolver(String tenantId) {
 
 		File[] files = Paths.get("tenants/atRuntime").toFile().listFiles();

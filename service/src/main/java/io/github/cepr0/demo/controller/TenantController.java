@@ -20,12 +20,20 @@ public class TenantController {
 	public TenantController(MultiTenantManager tenantManager) {
 		this.tenantManager = tenantManager;
 	}
-	
+
+	/**
+	 * Get list of all tenants in the local storage
+	 */
 	@GetMapping
 	public ResponseEntity<?> getAll() {
 		return ResponseEntity.ok(tenantManager.getTenantList());
 	}
-	
+
+	/**
+	 * Add the new tenant on the fly
+	 *
+	 * @param dbProperty Map with tenantId and related datasource properties
+	 */
 	@PostMapping
 	public ResponseEntity<?> add(@RequestBody Map<String, String> dbProperty) {
 		
