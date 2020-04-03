@@ -1,0 +1,16 @@
+version: '2.3'
+services:
+  postgresql:
+    image: postgres:12-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 20s
+      timeout: 5s
+      retries: 6

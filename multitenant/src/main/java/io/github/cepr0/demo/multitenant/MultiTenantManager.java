@@ -1,5 +1,6 @@
 package io.github.cepr0.demo.multitenant;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -30,13 +31,14 @@ public class MultiTenantManager {
 
 	private AbstractRoutingDataSource multiTenantDataSource;
 
+	@Getter private DataSource defaultDatasource;
+
 	public MultiTenantManager(DataSourceProperties properties) {
 		this.properties = properties;
 	}
 
 	@Bean
-	public DataSource dataSource() {
-
+	public DataSource tenantDataSource() {
 		multiTenantDataSource = new AbstractRoutingDataSource() {
 			@Override
 			protected Object determineCurrentLookupKey() {
@@ -44,7 +46,8 @@ public class MultiTenantManager {
 			}
 		};
 		multiTenantDataSource.setTargetDataSources(tenantDataSources);
-		multiTenantDataSource.setDefaultTargetDataSource(defaultDataSource());
+		defaultDatasource = defaultDataSource();
+		multiTenantDataSource.setDefaultTargetDataSource(defaultDatasource);
 		multiTenantDataSource.afterPropertiesSet();
 		return multiTenantDataSource;
 	}
@@ -78,7 +81,6 @@ public class MultiTenantManager {
 	}
 
 	public void addTenant(String tenantId, String url, String username, String password) throws SQLException {
-
 		DataSource dataSource = DataSourceBuilder.create()
 				.driverClassName(properties.getDriverClassName())
 				.url(url)
@@ -108,12 +110,12 @@ public class MultiTenantManager {
 		return tenantDataSources.keySet();
 	}
 
-	private DriverManagerDataSource defaultDataSource() {
+	private DataSource defaultDataSource() {
 		DriverManagerDataSource defaultDataSource = new DriverManagerDataSource();
-		defaultDataSource.setDriverClassName("org.h2.Driver");
-		defaultDataSource.setUrl("jdbc:h2:mem:default");
-		defaultDataSource.setUsername("default");
-		defaultDataSource.setPassword("default");
+		defaultDataSource.setDriverClassName(properties.getDriverClassName());
+		defaultDataSource.setUrl(properties.getUrl());
+		defaultDataSource.setUsername(properties.getUsername());
+		defaultDataSource.setPassword(properties.getPassword());
 		return defaultDataSource;
 	}
 }
