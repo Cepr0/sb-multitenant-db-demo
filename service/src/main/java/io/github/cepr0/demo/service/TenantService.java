@@ -31,7 +31,7 @@ public class TenantService {
         return tenantRepo.findAll().stream().map(Tenant::getId).collect(toList());
     }
 
-    public Tenant add(Tenant tenant) {
+    public Tenant put(Tenant tenant) {
         try {
             tenantRepo.save(tenant);
             tenantManager.addTenant(tenant.getId(), tenant.getUrl(), tenant.getUsername(), tenant.getPassword());

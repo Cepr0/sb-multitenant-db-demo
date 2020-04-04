@@ -8,11 +8,10 @@ GET http://localhost:8080/tenants
 
 ###
 
-POST http://localhost:8080/tenants
+PUT http://localhost:8080/tenants/tenant3
 Content-Type: application/json
 
 {
-  "tenantId": "tenant3",
   "url": "jdbc:postgresql://localhost:5432/tenant3",
   "username": "postgres",
   "password": "postgres"

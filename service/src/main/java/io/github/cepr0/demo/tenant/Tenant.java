@@ -1,21 +1,21 @@
 package io.github.cepr0.demo.tenant;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Persistable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Null;
 
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name = "tenants")
-public class Tenant implements Persistable<String> {
+public class Tenant {
+    @Null(groups = OnPut.class)
     @JsonProperty("tenantId")
     @Id
     @Column(columnDefinition = "text")
@@ -29,10 +29,4 @@ public class Tenant implements Persistable<String> {
 
     @Column(nullable = false, columnDefinition = "text")
     private String password;
-
-    @JsonIgnore
-    @Override
-    public boolean isNew() {
-        return true;
-    }
 }

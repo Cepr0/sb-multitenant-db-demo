@@ -1,8 +1,10 @@
 package io.github.cepr0.demo.controller;
 
 import io.github.cepr0.demo.service.TenantService;
+import io.github.cepr0.demo.tenant.OnPut;
 import io.github.cepr0.demo.tenant.Tenant;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,11 +30,12 @@ public class TenantController {
 	}
 
 	/**
-	 * Add the new tenant on the fly
+	 * Put the tenant on the fly
 	 */
-	@PostMapping
-	public Tenant add(@RequestBody Tenant tenant) {
-		log.info("[i] Received 'Add new tenant' request {}", tenant);
-		return tenantService.add(tenant);
+	@PutMapping("/{tenantId}")
+	public Tenant add(@Validated(OnPut.class) @RequestBody Tenant tenant, @PathVariable String tenantId) {
+		log.info("[i] Received 'Put tenant' request {}", tenant);
+		tenant.setId(tenantId);
+		return tenantService.put(tenant);
 	}
 }
