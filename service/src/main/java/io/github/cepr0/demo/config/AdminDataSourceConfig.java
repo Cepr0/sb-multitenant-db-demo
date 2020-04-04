@@ -2,7 +2,6 @@ package io.github.cepr0.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -28,7 +27,6 @@ public class AdminDataSourceConfig extends AbstractDataSourceConfig {
         this.env = env;
     }
 
-    @Primary
     @Bean
     DataSource adminDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -39,13 +37,11 @@ public class AdminDataSourceConfig extends AbstractDataSourceConfig {
         return dataSource;
     }
 
-    @Primary
     @Bean
     public LocalContainerEntityManagerFactoryBean adminEntityManager() {
         return entityManager(adminDataSource(), "io.github.cepr0.demo.tenant", "validate");
     }
 
-    @Primary
     @Bean
     public PlatformTransactionManager adminTransactionManager() {
         return transactionManager(adminEntityManager());

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true, transactionManager = "tenantTransactionManager")
+@Transactional
 public class ModelServiceImpl implements ModelService {
 	
 	private final ModelRepo modelRepo;
@@ -14,13 +14,14 @@ public class ModelServiceImpl implements ModelService {
 	public ModelServiceImpl(ModelRepo modelRepo) {
 		this.modelRepo = modelRepo;
 	}
-	
+
+	@Transactional(readOnly = true)
 	@Override
 	public Iterable<Model> findAll() {
 		return modelRepo.findAll();
 	}
 	
-	@Transactional(transactionManager = "tenantTransactionManager")
+
 	@Override
 	public Model save(Model model) {
 		return modelRepo.save(model);

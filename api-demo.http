@@ -1,4 +1,26 @@
+###
 POST http://localhost:8080/models
 X-TenantId: tenant1
+
+###
+
+GET http://localhost:8080/tenants
+
+###
+
+POST http://localhost:8080/tenants
+Content-Type: application/json
+
+{
+  "tenantId": "tenant3",
+  "url": "jdbc:postgresql://localhost:5432/tenant3",
+  "username": "postgres",
+  "password": "postgres"
+}
+
+###
+
+POST http://localhost:8080/models
+X-TenantId: tenant3
 
 ###

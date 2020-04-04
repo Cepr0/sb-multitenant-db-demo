@@ -16,7 +16,6 @@ echo "select 'create database ${admin_db};' where not exists (select from pg_dat
 echo "create table tenants (id text primary key, url text not null, username text not null, password text not null)" | psql -d "${admin_db}"
 echo "insert into tenants values ('tenant1', 'jdbc:postgresql://localhost:5432/tenant1', 'postgres', 'postgres')" | psql -d "${admin_db}"
 echo "insert into tenants values ('tenant2', 'jdbc:postgresql://localhost:5432/tenant2', 'postgres', 'postgres')" | psql -d "${admin_db}"
-echo "insert into tenants values ('tenant3', 'jdbc:postgresql://localhost:5432/tenant3', 'postgres', 'postgres')" | psql -d "${admin_db}"
 
 
 
